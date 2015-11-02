@@ -1,0 +1,4 @@
+faltan las funciones:
+validate: verificar que se aplane el boton por mas de 10ms
+check: verificar si se utilizara la funcion auto o manual
+block: bloquear entradas por 5s despues del apinch

@@ -7,7 +7,14 @@
 
 #include "WL_STM.h"
 #include "GPIO_State.h"
+#define SWITCH_INTERR_FLAG SIU.ISR.B.EIF21
+
 volatile int j = 0;
+vuint32_t count;
+vuint32_t xd;
+uint16_t su = 1;
+int mode = 0;
+int A_P_Con = 1;
 
 void WL_STM_init(void)
 {
@@ -15,7 +22,7 @@ void WL_STM_init(void)
     STM.CR.B.FRZ        = 0x1;
     STM.CR.B.CPS        = 0;         /* Configure Counter Prescaler, Counter Prescaler is 1     */
     
-    STM.CH[0].CMP.R     = 0x9C400; /* Compare with 640KHz = 10 msec*/      
+    STM.CH[0].CMP.R     = 0x9C400;   /* Compare with 640KHz = 10 msec*/      
     STM.CH[0].CCR.B.CEN = 0x1;       /* System Timer Channel 0: ENABLE                          */
     
     STM.CH[1].CMP.R     = 0x1E84800; /* Compare with 32MHz - 500 msec*/      
@@ -26,7 +33,6 @@ void WL_STM_init(void)
     
     STM.CR.B.TEN        = 0x1;       /* Enable System Timer Module                              */
 }
-
 
 void WL_CheckValid(void)
 {  /* ------------------------------------------------------------------------
@@ -43,7 +49,7 @@ void WL_CheckValid(void)
 	}
 }
 
-void WL_CheckAutoManualUp(void)
+int WL_CheckAutoManualUp(void)
 {  /* ------------------------------------------------------------------------
 	*  Name                 :  WL_CheckAutoManual
 	*  Description          :  Check if the movement will be Auto or Manual
@@ -51,13 +57,18 @@ void WL_CheckAutoManualUp(void)
 	*  Return               :  void
 	*  -----------------------------------------------------------------------
 	*/
-
-	if (STM.CH[1].CIR.B.CIF)
-	{
-		LED_TOGGLE(69);
-		STM.CH[1].CIR.B.CIF = 1;	/* Clear interrupt flag */
-		STM.CNT.R = 0; 				/*Reset counter*/
+	STM.CNT.R = 0;
+	while (su == 1){
+		mode = 1;
+		count = STM.CNT.R;
+		if (count > 0x1E84800)
+		{
+			STM.CH[1].CIR.B.CIF = 1;	/* Clear interrupt flag */
+			STM.CNT.R = 0; 				/* Reset counter */
+			mode = 2;
+		}
 	}
+	return mode;
 }
 
 int WL_CheckAutoManualDw(void)
@@ -71,8 +82,11 @@ int WL_CheckAutoManualDw(void)
 	int mode = 0;
 	
 	uint16_t sd;
-	
+		
 	sd = GPIO_GetState(SW_DOWN);
+	
+	STM.CNT.R = 0;
+	
 	while (sd == 1){
 		mode = 1;
 		if (STM.CH[1].CIR.B.CIF)
@@ -86,7 +100,6 @@ int WL_CheckAutoManualDw(void)
 		sd = GPIO_GetState(SW_DOWN);
 	}
 	  
-
 	return mode;
 }
 
@@ -102,6 +115,7 @@ void WL_WinMUp(void)
 	if (STM.CH[2].CIR.B.CIF)
 	{
 		GPIO_SetState(LED_BAR_0 + j, 1);
+		GPIO_SetState(LED_UP, 1);
 		STM.CH[2].CIR.B.CIF = 1;	/* Clear interrupt flag */
 		STM.CNT.R = 0; 				/*Reset counter*/
 		j++;
@@ -109,6 +123,7 @@ void WL_WinMUp(void)
 			j = 9;
 		}
 	}
+	mode = 0;
 }
 
 void WL_WinAUp(void)
@@ -119,16 +134,19 @@ void WL_WinAUp(void)
 	*  Return               :  void
 	*  -----------------------------------------------------------------------
 	*/
-	while(j <= 9){
+	A_P_Con = 1;
+	while(j <= 9 && A_P_Con == 1){
 		if (STM.CH[2].CIR.B.CIF)
 		{
 			GPIO_SetState(LED_BAR_0 + j, 1);
 			GPIO_SetState(LED_UP, 1);
+			GPIO_SetState(LED_DOWN, 0);
 			STM.CH[2].CIR.B.CIF = 1;	/* Clear interrupt flag */
 			STM.CNT.R = 0; 				/*Reset counter*/
 			j++;
 		}
 	}
+	mode = 0;
 }
 
 void WL_WinMDw(void)
@@ -167,9 +185,35 @@ void WL_WinADw(void)
 		{
 			GPIO_SetState(LED_BAR_0 + j, 0);
 			GPIO_SetState(LED_DOWN, 1);
+			GPIO_SetState(LED_UP, 0);
 			STM.CH[2].CIR.B.CIF = 1;	/* Clear interrupt flag */
 			STM.CNT.R = 0; 				/*Reset counter*/
 			j--;
+		}
+	}
+}
+
+void WL_A_Pinch(void)
+{  /* ------------------------------------------------------------------------
+	*  Name                 :  WL_A_Pinch
+	*  Description          :  Close the window automatically
+	*  Parameters           :  void 
+	*  Return               :  void
+	*  -----------------------------------------------------------------------
+	*/
+	while (SWITCH_INTERR_FLAG){
+		while(j >= 0){
+			if (STM.CH[2].CIR.B.CIF)
+			{
+				GPIO_SetState(LED_BAR_0 + j, 0);
+				GPIO_SetState(LED_DOWN, 1);
+				GPIO_SetState(LED_UP, 0);
+				STM.CH[2].CIR.B.CIF = 1;	/* Clear interrupt flag */
+				SWITCH_INTERR_FLAG = 1;
+				STM.CNT.R = 0; 				/*Reset counter*/
+				A_P_Con = 2;
+				j--;
+			}
 		}
 	}
 }

@@ -19,12 +19,14 @@ void WL_STM_init    (void);
 
 void WL_CheckValid(void);
 
-void WL_CheckAutoManualUp(void);
+int WL_CheckAutoManualUp(void);
 int WL_CheckAutoManualDw(void);
 
 void WL_WinMUp(void);
 void WL_WinAUp(void);
 void WL_WinMDw(void);
 void WL_WinADw(void);
+
+void WL_A_Pinch(void);
 
 #endif /* WL_STM_H_ */

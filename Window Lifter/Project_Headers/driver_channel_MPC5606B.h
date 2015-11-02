@@ -78,10 +78,10 @@ extern enum E_PORT
 	PD14,  /*Port D, Pin 14. Functions: GPIO[62], CS1_1, E0UC[26] and ADC0_S[6]                             */
 	PD15,  /*Port D, Pin 15. Functions: GPIO[63], CS2_1, E0UC[27] and ADC0_S[7]                             */
 		
-	SW_A_PINCH,  /*Port E, Pin 0.  Functions: GPIO[64] - PUSHBUTTON1, E0UC[16], WKPU[6]^5 and CAN5RX              */
-	PE01,  /*Port E, Pin 1.  Functions: GPIO[65] - PUSHBUTTON2, E0UC[17] and CAN5TX                         */
-	SW_DOWN,  /*Port E, Pin 2.  Functions: GPIO[66] - PUSHBUTTON3, E0UC[18], EIRQ[21] and SIN_1                */
-	SW_UP,  /*Port E, Pin 3.  Functions: GPIO[67] - PUSHBUTTON4, E0UC[19] and SOUT_1                         */
+	SW_DOWN,  /*Port E, Pin 0.  Functions: GPIO[64] - PUSHBUTTON1, E0UC[16], WKPU[6]^5 and CAN5RX              */
+	SW_UP,  /*Port E, Pin 1.  Functions: GPIO[65] - PUSHBUTTON2, E0UC[17] and CAN5TX                         */
+	SW_A_PINCH,  /*Port E, Pin 2.  Functions: GPIO[66] - PUSHBUTTON3, E0UC[18], EIRQ[21] and SIN_1                */
+	PE03,  /*Port E, Pin 3.  Functions: GPIO[67] - PUSHBUTTON4, E0UC[19] and SOUT_1                         */
 	PE04,  /*Port E, Pin 4.  Functions: GPIO[68] - LED1, E0UC[20], SCK_1 and EIRQ[9]                        */
 	PE05,  /*Port E, Pin 5.  Functions: GPIO[69] - LED2, E0UC[21], CS0_1 and MA[2]                          */
 	PE06,  /*Port E, Pin 6.  Functions: GPIO[70] - LED3, E0UC[22], CS3_0, MA[1] and EIRQ[22]                */

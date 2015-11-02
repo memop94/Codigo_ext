@@ -49,9 +49,9 @@ void WL_GPIO_Init(void)
 	Init_GPIO_En(SW_DOWN,    0x0100);  /* Program the drive enable pin of SW_DOWN "S3",(PE3) as input    */
 	Init_GPIO_En(SW_UP,      0x0100);  /* Program the drive enable pin of SW_UP "S4",(PE) as input      */
 		
-	Init_GPIO_En(PE04,  0x0200); /* Program the drive enable pin of LED1 as output       */
-	Init_GPIO_En(PE05,  0x0200); /* Program the drive enable pin of LED2 as output       */
-	Init_GPIO_En(PE06,  0x0200); /* Program the drive enable pin of LED3 as output       */
+  /*Init_GPIO_En(PE04,  0x0200); /* Program the drive enable pin of LED1 as output */      
+	//Init_GPIO_En(PE05,  0x0200); /* Program the drive enable pin of LED2 as output */       
+  /*Init_GPIO_En(PE06,  0x0200); /* Program the drive enable pin of LED3 as output       
 	Init_GPIO_En(PE07,  0x0200); /* Program the drive enable pin of LED4 as output       */
 }
 

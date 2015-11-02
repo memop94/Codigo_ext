@@ -4,6 +4,7 @@
 "./Project_Settings/Startup_Code/MPC5606B_HWInit_c.obj"
 "./Sources/main_c.obj"
 "./Sources/ivor_branch_table_c.obj"
+"./Sources/external_interrupts_c.obj"
 "./Sources/WL_SYS_INIT_c.obj"
 "./Sources/WL_STM_c.obj"
 "./Sources/WL_GPIO_c.obj"

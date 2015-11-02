@@ -15,6 +15,7 @@ C_SRCS_QUOTED += \
 "../Sources/WL_GPIO.c" \
 "../Sources/WL_STM.c" \
 "../Sources/WL_SYS_INIT.c" \
+"../Sources/external_interrupts.c" \
 "../Sources/ivor_branch_table.c" \
 "../Sources/main.c" \
 
@@ -28,6 +29,7 @@ C_SRCS += \
 ../Sources/WL_GPIO.c \
 ../Sources/WL_STM.c \
 ../Sources/WL_SYS_INIT.c \
+../Sources/external_interrupts.c \
 ../Sources/ivor_branch_table.c \
 ../Sources/main.c \
 
@@ -41,6 +43,7 @@ OBJS += \
 ./Sources/WL_GPIO_c.obj \
 ./Sources/WL_STM_c.obj \
 ./Sources/WL_SYS_INIT_c.obj \
+./Sources/external_interrupts_c.obj \
 ./Sources/ivor_branch_table_c.obj \
 ./Sources/main_c.obj \
 
@@ -54,6 +57,7 @@ OBJS_QUOTED += \
 "./Sources/WL_GPIO_c.obj" \
 "./Sources/WL_STM_c.obj" \
 "./Sources/WL_SYS_INIT_c.obj" \
+"./Sources/external_interrupts_c.obj" \
 "./Sources/ivor_branch_table_c.obj" \
 "./Sources/main_c.obj" \
 
@@ -67,6 +71,7 @@ C_DEPS += \
 ./Sources/WL_GPIO_c.d \
 ./Sources/WL_STM_c.d \
 ./Sources/WL_SYS_INIT_c.d \
+./Sources/external_interrupts_c.d \
 ./Sources/ivor_branch_table_c.d \
 ./Sources/main_c.d \
 
@@ -80,6 +85,7 @@ OBJS_OS_FORMAT += \
 ./Sources/WL_GPIO_c.obj \
 ./Sources/WL_STM_c.obj \
 ./Sources/WL_SYS_INIT_c.obj \
+./Sources/external_interrupts_c.obj \
 ./Sources/ivor_branch_table_c.obj \
 ./Sources/main_c.obj \
 
@@ -93,6 +99,7 @@ C_DEPS_QUOTED += \
 "./Sources/WL_GPIO_c.d" \
 "./Sources/WL_STM_c.d" \
 "./Sources/WL_SYS_INIT_c.d" \
+"./Sources/external_interrupts_c.d" \
 "./Sources/ivor_branch_table_c.d" \
 "./Sources/main_c.d" \
 
@@ -175,9 +182,17 @@ Sources/WL_SYS_INIT_c.obj: ../Sources/WL_SYS_INIT.c
 	@echo 'Finished building: $<'
 	@echo ' '
 
-Sources/ivor_branch_table_c.obj: ../Sources/ivor_branch_table.c
+Sources/external_interrupts_c.obj: ../Sources/external_interrupts.c
 	@echo 'Building file: $<'
 	@echo 'Executing target #10 $<'
+	@echo 'Invoking: PowerPC Compiler'
+	"$(PAToolsDirEnv)/mwcceppc" @@"Sources/external_interrupts.args" -o "Sources/external_interrupts_c.obj" "$<" -MD -gccdep
+	@echo 'Finished building: $<'
+	@echo ' '
+
+Sources/ivor_branch_table_c.obj: ../Sources/ivor_branch_table.c
+	@echo 'Building file: $<'
+	@echo 'Executing target #11 $<'
 	@echo 'Invoking: PowerPC Compiler'
 	"$(PAToolsDirEnv)/mwcceppc" @@"Sources/ivor_branch_table.args" -o "Sources/ivor_branch_table_c.obj" "$<" -MD -gccdep
 	@echo 'Finished building: $<'
@@ -185,7 +200,7 @@ Sources/ivor_branch_table_c.obj: ../Sources/ivor_branch_table.c
 
 Sources/main_c.obj: ../Sources/main.c
 	@echo 'Building file: $<'
-	@echo 'Executing target #11 $<'
+	@echo 'Executing target #12 $<'
 	@echo 'Invoking: PowerPC Compiler'
 	"$(PAToolsDirEnv)/mwcceppc" @@"Sources/main.args" -o "Sources/main_c.obj" "$<" -MD -gccdep
 	@echo 'Finished building: $<'

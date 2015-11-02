@@ -21,4 +21,5 @@ Sources/main_c.obj: C:\Users\GuillermoFrancisco\workspace\Project\ 01\ -\ Window
 	C:\Users\GuillermoFrancisco\workspace\Project\ 01\ -\ Window\ Lifter\Project_Headers\IntcInterrupts.h \
 	C:\Users\GuillermoFrancisco\workspace\Project\ 01\ -\ Window\ Lifter\Project_Headers\WL_STM.h \
 	C:\Users\GuillermoFrancisco\workspace\Project\ 01\ -\ Window\ Lifter\Project_Headers\WL_FUNCTIONS.h \
-	C:\Users\GuillermoFrancisco\workspace\Project\ 01\ -\ Window\ Lifter\Project_Headers\GPIO_State.h 
+	C:\Users\GuillermoFrancisco\workspace\Project\ 01\ -\ Window\ Lifter\Project_Headers\GPIO_State.h \
+	C:\Users\GuillermoFrancisco\workspace\Project\ 01\ -\ Window\ Lifter\Project_Headers\external_interrupts.h 
